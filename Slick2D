@@ -1,0 +1,83 @@
+//potrzebujecie lwjgl w wersji 2.x.x!!!! (ważne, z niewiadomych przyczyn nie działa na 3.x)
+//no i oczywiście slick2d, postaram się wrzucić wam na githuba
+//kólko co jezdzi po ekranie z capem fps na 60, (60 linijek xd)
+
+kodzik:
+
+package testSlick2D;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.awt.Shape;
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.ControlledInputReciever;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+
+public class SimpleSlickGame extends BasicGame
+{
+	private int x=0;
+	private int y=0;
+	private int velX=0;
+	private int velY=0;
+	public SimpleSlickGame(String gamename)
+	{
+		super(gamename);
+	}
+
+	@Override
+	public void init(GameContainer gc) throws SlickException {}
+		
+
+	@Override
+	public void update(GameContainer gc, int i) throws SlickException {
+			y+=velY;
+			x+=velX;
+	}
+	
+
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException
+	{
+		g.drawString("Howdy!", 50, 50);
+		g.setColor(Color.red);
+		g.drawOval(x, y, 64, 64);
+	}
+	public interface KeyListener extends ControlledInputReciever {}
+	
+	public void keyPressed(int key , char c){
+		if (key == Input.KEY_W)	velY=-5;
+		if (key == Input.KEY_S)	velY=5;
+		if (key == Input.KEY_A)	velX=-5;
+		if (key == Input.KEY_D)	velX=5;
+		
+		
+	}
+	public void keyReleased(int key , char c){
+		if (key == Input.KEY_W)	velY=0;
+		if (key == Input.KEY_S)	velY=0;
+		if (key == Input.KEY_A)	velX=0;
+		if (key == Input.KEY_D)	velX=0;
+		
+	}
+
+	public static void main(String[] args)
+	{
+		try
+		{
+			AppGameContainer appgc;
+			appgc = new AppGameContainer(new SimpleSlickGame("Simple Slick Game"));
+			appgc.setDisplayMode(640, 480, false);
+			appgc.setTargetFrameRate(60);
+			appgc.start();
+			
+		}
+		catch (SlickException ex)
+		{
+			Logger.getLogger(SimpleSlickGame.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+}
