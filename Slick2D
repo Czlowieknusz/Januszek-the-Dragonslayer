@@ -1,6 +1,8 @@
 //potrzebujecie lwjgl w wersji 2.x.x!!!! (ważne, z niewiadomych przyczyn nie działa na 3.x)
 //no i oczywiście slick2d, postaram się wrzucić wam na githuba
 //kólko co jezdzi po ekranie z capem fps na 60, (60 linijek xd)
+http://slick.ninjacave.com/wiki/index.php?title=Setting_up_Slick2D_with_Eclipse
+http://wiki.lwjgl.org/wiki/Setting_Up_LWJGL_with_Eclipse.html
 
 kodzik:
 
