@@ -1,0 +1,148 @@
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.newdawn.slick.AppGameContainer;
+import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.ControlledInputReciever;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
+
+public class JanuszekGame extends BasicGame{
+	
+	public Boolean menu=true;
+	public Boolean enter=false;
+	public Boolean options=false;
+	public Boolean mainMenu=true;
+	public Boolean loadGame=false;
+	public Boolean pause=false;
+	public int x=150;
+	public int y=250;
+	
+	public JanuszekGame(String Januszek){
+		super(Januszek);
+	}
+	
+
+	@Override
+	public void init(GameContainer gc) throws SlickException {
+		
+		
+	}
+
+	@Override
+	public void update(GameContainer gc, int i) throws SlickException {
+		if(enter) gc.sleep(100);
+		if(menu){
+			if(mainMenu){
+				if(y>400) y-=50;
+				if(y<250) y+=50;
+				if(y==400 && enter){
+					gc.exit();
+				}
+				else if(y==250 && enter){
+					menu=false;
+				}
+				else if(y==350 && enter){
+					options=true;
+					mainMenu=false;
+				}
+				else if(y==300 && enter){
+					mainMenu=false;
+					loadGame=true;
+				}
+			}
+			else if(options){
+				if(y>350) y-=50;
+				if(y<250) y+=50;
+				if(y==350 && enter){
+					options=false;
+					mainMenu=true;
+				}
+			}
+			else if(loadGame){
+				if(y<250) y+=50;
+				if(y>400) y-=50;
+				if(y==400 && enter){
+					loadGame=false;
+					mainMenu=true;
+				}
+			}
+			
+		}
+		if(pause){
+			if(y<250) y+=50;
+			if(y>300) y-=50;
+			if(y==300 && enter){
+				menu=true;
+				pause=false;
+			}
+		}
+		
+	}
+	
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		if(menu){
+			g.setColor(Color.orange);
+			if(mainMenu){
+				g.drawString("MENU", 200, 200);
+				g.drawString("New Game", 200, 250);
+				g.drawString("Load Game", 200, 300);
+				g.drawString("Options", 200, 350);
+				g.drawString("EXIT",200,400);
+				g.drawString("-->", x, y);
+			}
+			if(options){
+				g.drawString("OPTIONS", 200, 200);
+				g.drawString("Full Screen?", 200, 250);
+				g.drawString("Vsync", 200, 300);
+				g.drawString("Back", 200 , 350);
+				g.drawString("-->", x, y);
+			}
+			if(loadGame){
+				g.drawString("LOAD GAME", 200, 200);
+				g.drawString("Save 1", 200, 250);
+				g.drawString("Save 2", 200, 300);
+				g.drawString("Save 3", 200, 350);
+				g.drawString("BACK", 200, 400);
+				g.drawString("-->", x, y);
+			}
+		}
+		else if(pause){
+			g.drawString("Pause", 200, 200);
+			g.drawString("SaveGame", 200, 250);
+			g.drawString("EXIT", 200, 300);
+			g.drawString("-->", x, y);
+		}
+		else{
+			g.drawString("Here will be gameee", gc.getWidth() / 2, gc.getHeight() / 2);
+		}
+		
+	}
+	public interface KeyListener extends ControlledInputReciever {}
+	public void keyPressed(int key,char c){
+		if(key == Input.KEY_W) y-=50;
+		if(key == Input.KEY_S) y+=50;
+		if(key == Input.KEY_ENTER) enter=true;
+		if(key == Input.KEY_ESCAPE) pause=true;
+	}
+	public void keyReleased(int key,char c){
+		if(key == Input.KEY_ENTER) enter=false;
+	}
+	public static void main(String[] args){
+		try{
+			AppGameContainer appgc;
+			appgc = new AppGameContainer(new JanuszekGame("Januszek"));
+			appgc.setDisplayMode(appgc.getScreenWidth(), appgc.getScreenHeight(), true);
+			appgc.setTargetFrameRate(120);
+			appgc.start();
+		}
+		catch (SlickException ex)
+		{
+			Logger.getLogger(JanuszekGame.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
+}
